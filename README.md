@@ -5,8 +5,8 @@ O **EcoMonitor** é uma aplicação desenvolvida em Blazor que permite monitorar
 ---
 
 ## 👤 Identificação
-* **Nome Completo:** [Seu Nome Aqui]
-* **Curso:** [Seu Curso Aqui]
+* **Nome Completo:** Arthur Kyldare
+* **Curso:** Cienca da Computaçao
 
 ---
 
