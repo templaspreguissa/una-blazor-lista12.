@@ -1,0 +1,146 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<style>
+    .home-container {
+        padding: 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Estilo do Quadro Branco */
+    .whiteboard {
+        background-color: #f9f9f9;
+        border: 2px dashed #ccc;
+        border-radius: 15px;
+        min-height: 200px;
+        margin: 20px 0;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        gap: 15px;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .badge-icon {
+        font-size: 2.5rem;
+        animation: popIn 0.3s ease-out;
+    }
+
+    @@keyframes popIn {
+        0% { transform: scale(0); }
+        80% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    /* Layout dos cards */
+    .dashboard-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .eco-card {
+        background: white;
+        border-left: 6px solid #007bff;
+        border-radius: 8px;
+        padding: 15px;
+        width: 220px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .total-badge {
+        background: #007bff;
+        color: white;
+        padding: 2px 10px;
+        border-radius: 10px;
+        margin: 5px 0;
+        display: inline-block;
+    }
+
+    .btn-action {
+        width: 100%;
+        border: 2px solid #28a745;
+        background: transparent;
+        color: #28a745;
+        cursor: pointer;
+        font-weight: bold;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .btn-action:hover { background: #28a745; color: white; }
+
+    .win-msg {
+        background: gold;
+        padding: 15px;
+        border-radius: 10px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+</style>
+
+<div class="home-container">
+    <h2 class="text-center">🌎 EcoMonitor Dashboard</h2>
+
+    @if (IconsCollection.Count >= 100)
+    {
+        <div class="win-msg">🎉 PARABÉNS! VOCÊ É O REI DO MUNDO! 👑</div>
+    }
+
+    @* QUADRO BRANCO (ONDE OS "BROCHES" APARECEM) *@
+    <div class="whiteboard">
+        @if (IconsCollection.Count == 0)
+        {
+            <p style="color: #999;">O quadro está vazio. Comece a registrar atividades!</p>
+        }
+        @foreach (var icon in IconsCollection)
+        {
+            <span class="badge-icon">@icon</span>
+        }
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="eco-card">
+            <h4>Plástico</h4>
+            <div class="total-badge">@pontosPlastico</div>
+            <button class="btn-action" @onclick='() => Registrar("🥤", 1)'>Registrar</button>
+        </div>
+
+        <div class="eco-card">
+            <h4>Eletrônicos</h4>
+            <div class="total-badge">@pontosEletronicos</div>
+            <button class="btn-action" @onclick='() => Registrar("💻", 5)'>Registrar</button>
+        </div>
+
+        <div class="eco-card">
+            <h4>Árvores</h4>
+            <div class="total-badge">@pontosArvores</div>
+            <button class="btn-action" @onclick='() => Registrar("🌳", 10)'>Registrar</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int pontosPlastico = 0;
+    private int pontosEletronicos = 0;
+    private int pontosArvores = 0;
+
+    // Lista que guarda os ícones (broches) que aparecem no quadro
+    private List<string> IconsCollection = new List<string>();
+
+    private void Registrar(string icone, int valor)
+    {
+        // Adiciona o valor ao contador específico
+        if (icone == "🥤") pontosPlastico += valor;
+        if (icone == "💻") pontosEletronicos += valor;
+        if (icone == "🌳") pontosArvores += valor;
+
+        // Adiciona o "broche" no quadro branco
+        IconsCollection.Add(icone);
+    }
+}
